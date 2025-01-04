@@ -6,13 +6,17 @@ from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.monitor import Monitor
 import torch
+from reward_shaping import custom_reward_class
+print(torch.cuda.is_available())
+print(torch.cuda.get_device_name(0))
 
-print(torch.cuda.is_available())  # Should print True
-print(torch.cuda.get_device_name(0))  # Should print the name of your GPU
+reward_generator = custom_reward_class()
+reward_generator.generate_function() 
 
 class CustomRewardWrapper(RewardWrapper):
-    def __init__(self, env):
+    def __init__(self, env, custom_reward_func):
         super(CustomRewardWrapper, self).__init__(env)
+        self.custom_reward_func = custom_reward_func
         self.last_obs = None  # Store the last observation
 
     def step(self, action):
@@ -23,23 +27,14 @@ class CustomRewardWrapper(RewardWrapper):
         self.last_obs = obs
 
         # Modify the reward based on the observation
-        reward = self.custom_reward(obs, reward)
+        reward = self.custom_reward_func(obs, reward)
         return obs, reward, terminated, truncated, info
 
-    def custom_reward(self, obs, reward):
-        # obs contains the state: [x, y, vx, vy, angle, angular_velocity, leg1_contact, leg2_contact]
-        x, y, vx, vy, angle, angular_velocity, leg1, leg2 = obs
-        
-        # Example: Penalize for high descent rate
-        if vy < -0.5:  # Negative velocity in the y direction
-            reward -= 5
-        # Bonus for being upright
-        if abs(angle) < 0.1:
-            reward += 1
-        return reward
     
 # Create environment
-env = CustomRewardWrapper(gym.make('LunarLander-v2'))
+env = CustomRewardWrapper(
+                        gym.make('LunarLander-v2'),
+                        custom_reward_func=reward_generator.generated_function)
 
 
 # Instantiate the agent
@@ -57,11 +52,16 @@ model = PPO(
 
 
 # Train it for 1,000,000 timesteps
-model.learn(total_timesteps=1000000)
+model.learn(total_timesteps=10000)
 # Save the model
 model_name = "ppo-LunarLander-v2-custom-reward"
 model.save(model_name)
 
-eval_env = Monitor(CustomRewardWrapper(gym.make("LunarLander-v2", render_mode='rgb_array')))
+eval_env = Monitor(
+    CustomRewardWrapper(
+        gym.make("LunarLander-v2", render_mode="rgb_array"),
+        custom_reward_func=reward_generator.generated_function
+    )
+)
 mean_reward, std_reward = evaluate_policy(model, eval_env, n_eval_episodes=10, deterministic=True)
 print(f"mean_reward={mean_reward:.2f} +/- {std_reward}")
