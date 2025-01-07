@@ -14,11 +14,9 @@ print(torch.cuda.is_available())  # Should print True
 print(torch.cuda.get_device_name(0))  # Should print the name of your GPU
 
     
-# Create environment
 env = gym.make('LunarLander-v2')
 
 
-# Instantiate the agent
 model = PPO(
     policy = 'MlpPolicy',
     env = env,
@@ -32,9 +30,7 @@ model = PPO(
     device='cuda')
 
 
-# Train it for 1,000,000 timesteps
 model.learn(total_timesteps=1000000)
-# Save the model
 model_name = "ppo-LunarLander-v2-custom-reward"
 model.save(model_name)
 
