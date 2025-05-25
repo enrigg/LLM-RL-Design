@@ -22,8 +22,10 @@ def train_and_evaluate(env, total_timesteps=100000, name="baseline"):
     
     if isinstance(env.action_space, gym.spaces.Discrete):
         model = DQN("MlpPolicy", env, verbose=0, device=device, learning_rate=0.0001)
+        print("DQN")
     else:
         model = PPO("MlpPolicy", env, verbose=0, device=device, learning_rate=0.0001)
+        print("PPO")
 
     start = time.time()
     division = total_timesteps // 10
@@ -86,6 +88,7 @@ def record_agent(model, env_name, path="videos", num_episodes=5):
 if __name__ == "__main__":
     # entorno = "LunarLander-v2" # "BipedalWalker-v3"
     entorno = "BipedalWalker-v3"
+    print(entorno)
     generate_prompt(entorno)
 
     # Baseline
