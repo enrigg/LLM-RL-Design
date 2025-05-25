@@ -123,13 +123,6 @@ To run the experiments, follow these steps:
      OPENAI_API_KEY=your-api-key-here
      ```
 
-### Arguments
-- `--env`: The Gymnasium environment (`LunarLander-v2` or `BipedalWalker-v3`).
-- `--strategy`: The reward strategy (`baseline`, `static`, or `dynamic`).
-- `--timesteps`: Number of training timesteps (default: 100,000).
-
-Results will be logged, and videos of the agent's behavior will be saved in the `logs/` directory.
-
 ## References
 
 - [1] Ma, Y.; Zhang, Y.; Li, J.; et al. "REvolve: reward Evolution with large language model using Human Feedback". *Advances in Neural Information Processing Systems (NeurIPS)*, New Orleans, LA, USA, 2023.
