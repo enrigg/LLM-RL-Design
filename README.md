@@ -93,7 +93,7 @@ Below are animated GIFs showing the behavior of the agent in BipedalWalker-v3 st
   ![Static Behavior](gifs/image33.gif)
 
 - **Dynamic**: The walkers seems to learn a walking policy, still in need of an adjustment.  
-  ![Dynamic Behavior](gifs/iamge7.gif)
+  ![Dynamic Behavior](gifs/image7.gif)
 
 
 These GIFs demonstrate the progressive improvement from Baseline to Dynamic, with the Dynamic strategy achieving the most sophisticated behavior.
