@@ -69,6 +69,8 @@ The performance of the three strategies was evaluated over 100,000 timesteps in 
 
 ### Qualitative Results (GIFs)
 
+#### LunarLander-v2
+
 Below are animated GIFs showing the behavior of the agent in LunarLander-v2 under each strategy:
 
 - **Baseline**: The lunar lander remains nearly immobile, failing to learn a landing policy.  
@@ -80,7 +82,22 @@ Below are animated GIFs showing the behavior of the agent in LunarLander-v2 unde
 - **Dynamic**: The lander descends in a controlled manner and approaches the landing zone, though a final adjustment is needed.  
   ![Dynamic Behavior](gifs/image11.gif)
 
+#### BipedalWalker-v3
+
+Below are animated GIFs showing the behavior of the agent in BipedalWalker-v3 strategy:
+
+- **Baseline**: The walker barely advances, failing to learn a walking policy.  
+  ![Baseline Behavior](gifs/image22.gif)
+
+- **Static**: The walker falls immediately, failing to learn a walking policy.  
+  ![Static Behavior](gifs/image33.gif)
+
+- **Dynamic**: The walkers seems to learn a walking policy, still in need of an adjustment.  
+  ![Dynamic Behavior](gifs/iamge7.gif)
+
+
 These GIFs demonstrate the progressive improvement from Baseline to Dynamic, with the Dynamic strategy achieving the most sophisticated behavior.
+
 
 ## Installation
 
